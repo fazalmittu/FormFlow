@@ -4,32 +4,47 @@
     <meta charset="utf-8">
     <title>Upload a Video</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
       body {
         margin: 0;
         padding: 0;
-        font-family: 'Arial', sans-serif;
-        background-image: url('https://www.upscale.media/_next/static/media/hero-bg.3d07ec95.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
+        font-family: 'Inter', sans-serif;
+        background-color: #000;
         color: #fff;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
+        height: 100vh;
         text-align: center;
+        letter-spacing: normal; /* Reset letter-spacing to normal */
+      }
+
+      .formflow-title {
+        font-weight: 900;
+        font-size: 8em;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, #ff007f, #007bff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: absolute;
+        top: 5%;
       }
 
       .container {
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.8);
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       }
 
       h1 {
         font-size: 2.5em;
         margin-bottom: 20px;
+        color: #fff;
+        letter-spacing: normal; /* Reset letter-spacing to normal */
       }
 
       form {
@@ -41,26 +56,64 @@
       label {
         margin-bottom: 10px;
         font-size: 1.2em;
+        font-weight: bold;
+        letter-spacing: normal; /* Reset letter-spacing to normal */
       }
 
-      input[type="file"] {
+      .file-input-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 400px;
         margin-bottom: 20px;
-        padding: 10px;
+      }
+
+      .file-input {
+        width: 100%;
+        height: 50px;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+
+      .file-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 50px;
+        background-color: #333;
+        border: 1px solid #555;
+        border-radius: 5px;
+        color: #fff;
         font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .file-label:hover {
+        background-color: #444;
+      }
+
+      .file-label i {
+        margin-right: 10px;
       }
 
       button {
         padding: 10px 20px;
         font-size: 1em;
         color: #fff;
-        background-color: #007bff;
+        background-color: #ff007f;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        transition: background-color 0.3s;
       }
 
       button:hover {
-        background-color: #0056b3;
+        background-color: #007bff;
       }
 
       ul {
@@ -77,6 +130,7 @@
     </style>
   </head>
   <body>
+    <div class="formflow-title">MotionMonitor</div>
     <div class="container">
       <h1>Upload a Video</h1>
       {% with messages = get_flashed_messages() %}
@@ -89,8 +143,12 @@
         {% endif %}
       {% endwith %}
       <form method="post" action="/upload" enctype="multipart/form-data">
-        <label for="file">Choose a video file:</label>
-        <input type="file" id="file" name="file" accept="video/*" required>
+        <div class="file-input-container">
+          <input type="file" id="file" name="file" accept="video/*" class="file-input" required>
+          <label for="file" class="file-label">
+            <i class="fas fa-upload"></i> Choose a video file
+          </label>
+        </div>
         <button type="submit">Upload</button>
       </form>
     </div>
