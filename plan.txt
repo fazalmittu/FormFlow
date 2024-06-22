@@ -1,0 +1,22 @@
+FormFlow (Hackathon Version)
+- goal is to help correct a basketball shot
+- user uploads a video of them shooting a basketball shot
+- we first use openpose to get the human's form
+- then we pass in the following as context to GPT:
+    - user's form (with openpose overlay)
+    - a video of a professional basketball player shooting a similar shot (with openpose overlay)
+    - also whatever data openpose gives us
+- GPT then corrects the user's form based on the context
+- also we'd want to be able to sustain a conversation afterwards and ask follow up questions about the user's form
+- ideally we can ask how many shots went in (if the video contains more than one shot)
+- ideally we can also ask what 
+
+
+New Ideas
+- we can ask GPT for the key frames that we want to critique
+
+Tools being used:
+- OpenPose
+- GPT4V
+- potentially image embeddings
+- 
