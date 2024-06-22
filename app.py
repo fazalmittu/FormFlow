@@ -55,6 +55,8 @@ def upload_file():
         except Exception as e:
             flash(f'Error uploading file: {e}')
         return redirect(url_for('index'))
+    
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

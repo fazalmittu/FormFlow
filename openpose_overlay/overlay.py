@@ -1,6 +1,8 @@
 import cv2 as cv
 import numpy as np
 import math
+import boto3
+import os
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
                "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -107,10 +109,12 @@ def process_image_and_get_elbow_angle(image_path):
     return elbow_angle
 
 
-def generate_video(input_video_path):
-    cap = cv.VideoCapture(input_video_path)
-
+def generate_video(filename):
+     
+    # Load video
+    cap = cv.VideoCapture(filename=filename)
     # Get video properties
+    
     fps = cap.get(cv.CAP_PROP_FPS)
     width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
