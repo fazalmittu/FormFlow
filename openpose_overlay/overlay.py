@@ -1,16 +1,5 @@
-# To use Inference Engine backend, specify location of plugins:
-# export LD_LIBRARY_PATH=/opt/intel/deeplearning_deploymenttoolkit/deployment_tools/external/mklml_lnx/lib:$LD_LIBRARY_PATH
 import cv2 as cv
 import numpy as np
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--input', help='data/jordan.jpg')
-parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
-parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
-parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
-
-args = parser.parse_args()
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
                "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -23,23 +12,17 @@ POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElb
                ["LHip", "LKnee"], ["LKnee", "LAnkle"], ["Neck", "Nose"], ["Nose", "REye"],
                ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"] ]
 
-inWidth = args.width
-inHeight = args.height
-
-net = cv.dnn.readNetFromTensorflow("openpose_overlay/weights/graph_opt.pb")
-
-cap = cv.VideoCapture(args.input if args.input else 0)
-
-while cv.waitKey(1) < 0:
-    hasFrame, frame = cap.read()
-    if not hasFrame:
-        cv.waitKey()
-        break
-
+def process_image(image_path, thr=0.2, width=368, height=368):
+    net = cv.dnn.readNetFromTensorflow("openpose_overlay/weights/graph_opt.pb")
+    frame = cv.imread(image_path)
+    
+    if frame is None:
+        raise ValueError(f"Image at path {image_path} could not be loaded.")
+    
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
     
-    net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
+    net.setInput(cv.dnn.blobFromImage(frame, 1.0, (width, height), (127.5, 127.5, 127.5), swapRB=True, crop=False))
     out = net.forward()
     out = out[:, :19, :, :]  # MobileNet output [1, 57, -1, -1], we only need the first 19 elements
 
@@ -47,17 +30,11 @@ while cv.waitKey(1) < 0:
 
     points = []
     for i in range(len(BODY_PARTS)):
-        # Slice heatmap of corresponging body's part.
         heatMap = out[0, i, :, :]
-
-        # Originally, we try to find all the local maximums. To simplify a sample
-        # we just find a global one. However only a single pose at the same time
-        # could be detected this way.
         _, conf, _, point = cv.minMaxLoc(heatMap)
         x = (frameWidth * point[0]) / out.shape[3]
         y = (frameHeight * point[1]) / out.shape[2]
-        # Add a point if it's confidence is higher than threshold.
-        points.append((int(x), int(y)) if conf > args.thr else None)
+        points.append((int(x), int(y)) if conf > thr else None)
 
     for pair in POSE_PAIRS:
         partFrom = pair[0]
@@ -77,4 +54,13 @@ while cv.waitKey(1) < 0:
     freq = cv.getTickFrequency() / 1000
     cv.putText(frame, '%.2fms' % (t / freq), (10, 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
-    cv.imshow('OpenPose using OpenCV', frame)
+    return frame
+
+if __name__ == "__main__":
+    input_img = "data/goat.png"
+    output_img = process_image(input_img)
+    cv.imshow("Output", output_img)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+    # python3 -m openpose_overlay.overlay
