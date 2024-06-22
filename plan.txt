@@ -9,8 +9,6 @@ FormFlow (Hackathon Version)
 - GPT then corrects the user's form based on the context
 - also we'd want to be able to sustain a conversation afterwards and ask follow up questions about the user's form
 - ideally we can ask how many shots went in (if the video contains more than one shot)
-- ideally we can also ask what 
-
 
 New Ideas
 - we can ask GPT for the key frames that we want to critique
@@ -19,4 +17,4 @@ Tools being used:
 - OpenPose
 - GPT4V
 - potentially image embeddings
-- 
+
