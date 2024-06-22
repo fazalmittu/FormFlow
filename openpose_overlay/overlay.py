@@ -13,7 +13,7 @@ POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElb
                ["LHip", "LKnee"], ["LKnee", "LAnkle"], ["Neck", "Nose"], ["Nose", "REye"],
                ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"] ]
 
-def process_frame(frame, thr=0.2, width=368, height=368):
+def process_frame(frame, thr=0.1, width=368, height=368):
     net = cv.dnn.readNetFromTensorflow("openpose_overlay/weights/graph_opt.pb")
 
     frameWidth = frame.shape[1]
@@ -45,13 +45,12 @@ def process_frame(frame, thr=0.2, width=368, height=368):
         idTo = BODY_PARTS[partTo]
 
         if points[idFrom] and points[idTo]:
-            cv.line(frame, points[idFrom], points[idTo], (0, 255, 0), 3)
-            if idFrom == 2 and idTo == 3:
+            if (idFrom == 2 and idTo == 3) or (idFrom == 3 and idTo == 4):  # Focus on the right elbow
                 angle_points += [points[idFrom]]
                 angle_points += [points[idTo]]
-            if idFrom == 3 and idTo == 4:
-                angle_points += [points[idFrom]]
-                angle_points += [points[idTo]]
+                cv.line(frame, points[idFrom], points[idTo], (0, 255, 0), 3)
+            else:
+                cv.line(frame, points[idFrom], points[idTo], (255, 255, 255), 3)
             cv.ellipse(frame, points[idFrom], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
             cv.ellipse(frame, points[idTo], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
 
@@ -69,9 +68,9 @@ def dot_product(vA, vB):
     return vA[0]*vB[0]+vA[1]*vB[1]
 
 def get_angle(angle_points):
-     # Vector from first to second point
-    v1 = [angle_points[1][0] - angle_points[0][0], angle_points[1][1] - angle_points[0][1]]
-    # Vector from third to fourth point
+    # Vector from shoulder to elbow
+    v1 = [angle_points[0][0] - angle_points[1][0], angle_points[0][1] - angle_points[1][1]]
+    # Vector from wrist to elbow
     v2 = [angle_points[3][0] - angle_points[2][0], angle_points[3][1] - angle_points[2][1]]
     
     # Calculate the dot product of v1 and v2
@@ -81,17 +80,23 @@ def get_angle(angle_points):
     magA = math.sqrt(v1[0] ** 2 + v1[1] ** 2)
     magB = math.sqrt(v2[0] ** 2 + v2[1] ** 2)
     
-    # Calculate the angle in radians
+    # Avoid division by zero and handle edge cases
+    if magA == 0 or magB == 0:
+        return None
+    
+    # Calculate the cosine of the angle
     cos_angle = dot / (magA * magB)
+    
+    # Clamp the cosine value to the range [-1, 1] to avoid any floating-point issues
+    cos_angle = max(-1.0, min(1.0, cos_angle))
+    
+    # Calculate the angle in radians
     angle = math.acos(cos_angle)
     
     # Convert the angle to degrees
-    ang_deg = math.degrees(angle) % 360
+    ang_deg = math.degrees(angle)
     
-    if ang_deg - 180 >= 0:
-        return 360 - ang_deg
-    else:
-        return ang_deg
+    return ang_deg
     
 def process_image_and_get_elbow_angle(image_path):
     image = cv.imread(image_path)
@@ -139,6 +144,6 @@ if __name__ == "__main__":
     # cv.destroyAllWindows()
     # python3 -m openpose_overlay.overlay
     #generate_video("data/freethrow.mp4")
-    print(process_image_and_get_elbow_angle("data/kobe.jpg"))
+    print(process_image_and_get_elbow_angle("data/jordan.jpg"))
 
     
