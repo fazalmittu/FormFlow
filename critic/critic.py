@@ -4,16 +4,15 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
 HUME_API_KEY = os.getenv("HUME_API_KEY")
-print(HUME_API_KEY)
 
 async def main() -> None:
-  # Connect and authenticate with Hume
-  client = HumeVoiceClient(HUME_API_KEY)
+    # Connect and authenticate with Hume
+    client = HumeVoiceClient(HUME_API_KEY)
 
-  # Start streaming EVI over your device's microphone and speakers
-  async with client.connect() as socket:
-      await MicrophoneInterface.start(socket)
+    # Start streaming EVI over your device's microphone and speakers
+    async with client.connect() as socket:
+        await MicrophoneInterface.start(socket, allow_user_interrupt=True)
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
