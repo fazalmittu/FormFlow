@@ -29,10 +29,11 @@
       justify-content: space-between;
     }
     .header {
-      font-size: 2.5em; /* Increase the size of the Performance Summary title */
+      font-size: 2.5em;
+      font-family: 'Courier New', Courier, monospace;
+      color: #4CAF50;
       margin-bottom: 20px;
       font-weight: bold;
-      font-family: 'Inter', sans-serif;
     }
     .content {
       display: flex;
@@ -49,7 +50,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
     .chart-container {
       max-width: 250px; /* Make the pie chart smaller */
@@ -69,6 +69,8 @@
       display: flex;
       align-items: center;
       font-family: 'Courier New', Courier, monospace;
+      margin-bottom: 0; /* Remove extra space */
+      line-height: 1; /* Adjust line height */
     }
     .line-segment {
       width: 50px;
@@ -89,6 +91,8 @@
       text-align: left;
       color: #fff;
       font-family: 'Courier New', Courier, monospace;
+      margin-bottom: 0; /* Remove extra space */
+      line-height: 1.4; /* Adjust line height */
     }
     .button-container {
       display: flex;
@@ -103,7 +107,12 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -172,6 +181,9 @@
         }
       }
     });
+
+    // Update the score text with the final score
+    document.querySelector('.score').textContent = 'Score: ' + finalScore;
   });
 </script>
 </body>
