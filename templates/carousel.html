@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Video Key Frames</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #000;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
+
+      .title {
+        font-weight: 900;
+        font-size: 3em;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, #ff007f, #007bff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .carousel {
+        width: 80%;
+        max-width: 800px;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        position: relative;
+      }
+
+      .carousel-inner {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-item {
+        min-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .carousel-item img {
+        width: 100%;
+        border-bottom: 2px solid #ff007f;
+      }
+
+      .carousel-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.2em;
+      }
+
+      .carousel-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+      }
+
+      .carousel-control {
+        background: rgba(0, 0, 0, 0.6);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 2em;
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      .carousel-control:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">Key Frames Carousel</div>
+    <div class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/800x450.png?text=Key+Frame+1" alt="Key Frame 1">
+          <div class="carousel-caption">This is a description for Key Frame 1.</div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/800x450.png?text=Key+Frame+2" alt="Key Frame 2">
+          <div class="carousel-caption">This is a description for Key Frame 2.</div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/800x450.png?text=Key+Frame+3" alt="Key Frame 3">
+          <div class="carousel-caption">This is a description for Key Frame 3.</div>
+        </div>
+        <!-- Add more carousel items as needed -->
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <script>
+      let currentIndex = 0;
+      const items = document.querySelectorAll('.carousel-item');
+      const totalItems = items.length;
+
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+        updateCarousel();
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+      });
+
+      function updateCarousel() {
+        const carouselInner = document.getElementById('carouselInner');
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+    </script>
+  </body>
+</html>
