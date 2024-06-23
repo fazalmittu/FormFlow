@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, jsonify
 import boto3
 import os
 from dotenv import load_dotenv
+from critic.gptv import critique_video
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -23,7 +24,6 @@ s3 = boto3.client(
     region_name=AWS_REGION
 )
 
-
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 
 def allowed_file(filename):
@@ -36,6 +36,7 @@ def index():
 @app.route('/feedback')
 def feedback(): 
     return render_template('carousel.html')
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -47,6 +48,8 @@ def upload_file():
         return redirect(url_for('index'))
     if file and allowed_file(file.filename):
         filename = file.filename
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
         try:
             s3.upload_fileobj(
                 file,
@@ -55,11 +58,13 @@ def upload_file():
                 ExtraArgs={"ContentType": file.content_type}
             )
             flash('File successfully uploaded to S3')
+            critique_result = critique_video(filepath)
+            # Save critique result to session or database if needed
+            # print(critique_result)
+            return redirect(url_for('feedback'))
         except Exception as e:
             flash(f'Error uploading file: {e}')
         return redirect(url_for('index'))
-    
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
