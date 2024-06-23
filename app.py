@@ -46,7 +46,9 @@ def index():
 @app.route('/run-critic')
 def run_critic():
     print("made it to run critic")
-    critic.main()
+    critique_result = session.get('critique_result', {})
+    overall_critique = critique_result.get('overall_critique', '')
+    critic.main(overall_critique)
 
 
 @app.route('/feedback')

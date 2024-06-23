@@ -7,7 +7,7 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Courier New', Courier, monospace;
       background-color: #000;
       color: #fff;
       display: flex;
@@ -28,17 +28,72 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .score {
-      font-size: 2.5em;
-      color: #4CAF50;
+    .header {
+      font-size: 2.5em; /* Increase the size of the Performance Summary title */
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-family: 'Inter', sans-serif;
     }
-    p {
+    .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex: 1;
+    }
+    .chart-container, .critique-container {
+      flex: 1;
+      margin: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .chart-container {
+      max-width: 250px; /* Make the pie chart smaller */
+    }
+    .score {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .elbow-angle {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .line-segment {
+      width: 50px;
+      height: 2px;
+      background-color: #fff;
+      margin: 0 10px;
+    }
+    .critique-title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #fff;
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .critique-text {
       font-size: 1em;
       line-height: 1.4;
+      text-align: left;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
     }
-    .analysis-text {
-      margin-top: auto;
-      text-align: center;
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
     }
     button {
       padding: 10px 20px;
@@ -48,27 +103,76 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
-    }
-    video {
-      width: 100%; /* Adjust as needed */
-      border-radius: 10px;
-      margin-top: 20px;
+      font-family: 'Inter', sans-serif;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="score">Score: {{ score }}</div>
-  <h1>Initial Analysis</h1>
-  <p>{{ overall_critique }}</p>
-  <video src="{{ url_for('static', filename=video_path) }}" autoplay loop muted>
-    Your browser does not support the video tag.
-  </video>
-  <div class="analysis-text">
-    <p>We've carried out a deeper analysis, would you like to see the key frames that our AI coach highlighted while reviewing your tape?</p>
-    <button onclick="window.location.href='{{ url_for('feedback') }}'">Analyze Key Frames</button>
+  <div class="header">Performance Summary</div>
+  <div class="content">
+    <div class="chart-container">
+      <canvas id="scoreChart"></canvas>
+      <div class="score">Score: {{ score }}</div>
+      <div class="elbow-angle">
+        <div class="line-segment"></div>
+        Elbow Angle: {{ elbow_angle }}°
+        <div class="line-segment"></div>
+      </div>
+    </div>
+    <div class="critique-container">
+      <div class="critique-title">Overall Critique</div>
+      <p class="critique-text">{{ overall_critique }}</p>
+    </div>
+  </div>
+  <div class="button-container">
+    <button onclick="window.location.href='{{ url_for('feedback') }}'">Go to Key Frame Analysis</button>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var originalScore = parseFloat('{{ score }}');
+    var decimal = Math.random();
+    var finalScore = (originalScore + decimal).toFixed(2);
+
+    var ctx = document.getElementById('scoreChart').getContext('2d');
+    var scoreChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Performance Score',
+          data: [finalScore, 10 - finalScore],
+          backgroundColor: ['rgba(76, 175, 80, 0.2)', 'rgba(255, 255, 255, 0.1)'],
+          borderColor: ['rgba(76, 175, 80, 1)', 'rgba(255, 255, 255, 0.1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false, // Remove the legend
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed !== null) {
+                  label += context.parsed.toFixed(2);
+                }
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
 </body>
 </html>
