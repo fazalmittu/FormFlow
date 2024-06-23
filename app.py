@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from critic.gptv import critique_video
 import json
+import pprint
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -37,8 +38,8 @@ def index():
 @app.route('/feedback')
 def feedback():
     critique_result = request.args.get('critique_result')
+    print(critique_result)
     if critique_result:
-        critique_result = json.loads(critique_result)
         student_key_frames = critique_result.get('student_key_frames', [])
         key_frame_paths = [f'frames/user/frame_{frame}.jpg' for frame in student_key_frames]
     else:
@@ -68,6 +69,7 @@ def upload_file():
             flash('File successfully uploaded to S3')
             critique_result = critique_video(filepath)
             critique_result_json = json.dumps(critique_result)
+            pprint.pprint(critique_result_json)
             return redirect(url_for('feedback', critique_result=critique_result_json))
         except Exception as e:
             flash(f'Error uploading file: {e}')

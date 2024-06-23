@@ -4,6 +4,7 @@ import time
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import json
 
 from utils.gpt_prompt import CRITIQUE_SYSTEM_MESSAGE
 from video_processing.process import process_video
@@ -40,10 +41,14 @@ def critique_video(user_video_path: str) -> str:
         "model": "gpt-4o",
         "messages": PROMPT_MESSAGES,
         "max_tokens": 2000,
+        # "response_format": { "type": "json_object" }
     }
-
+    
     result = client.chat.completions.create(**params)
-    return result.choices[0].message.content
+    res = json.loads(result.choices[0].message.content)
+    print(res)
+    print(type(res))
+    return res
 
 if __name__ == "__main__":
     user_video_path = "data/freethrow.mp4"  # Example user video path

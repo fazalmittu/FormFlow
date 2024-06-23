@@ -20,7 +20,7 @@ Only count shots that have been released from the hands. Only count the shot as 
     'overall_critique' --> Your overall analysis of the shot form taking into account all of the intermediate steps and the technique in the reference
     video. Make sure the analysis is detailed and fair.
 
-    Give an intricate, detailed response. Make sure to only return a json.
+    Give an intricate, detailed response. Make sure to only return a json with NO OTHER TEXT. I SHOULD BE ABLE TO PARSE YOUR RESPONSE USING JSON.LOADS
 
 """
 
@@ -81,7 +81,6 @@ Then run some variation of the following code to get the frames:
     len(frames)
 
     '''
-
 
 Remember to start by extracting the frames and picking out the key frames that show the intermediate steps.
 Please do not just pick the first 10 frames, look more deeply. 
