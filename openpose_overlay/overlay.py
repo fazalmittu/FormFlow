@@ -4,6 +4,8 @@ import math
 import boto3
 import os
 
+ELBOW_ANGLE_ARRAY = []
+
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
                "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
                "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
@@ -59,6 +61,8 @@ def process_frame(frame, thr=0.1, width=368, height=368):
     angle = None
     if len(angle_points) == 4:
         angle = get_angle(angle_points)
+    
+    ELBOW_ANGLE_ARRAY.append(angle)
 
     t, _ = net.getPerfProfile()
     freq = cv.getTickFrequency() / 1000
@@ -101,11 +105,15 @@ def get_angle(angle_points):
     return ang_deg
     
 def process_image_and_get_elbow_angle(image_path):
-    image = cv.imread(image_path)
-    processed_image, elbow_angle = process_frame(image)
-    cv.imshow('Processed Image', processed_image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    # image = cv.imread(image_path)
+    # processed_image, elbow_angle = process_frame(image)
+    # path to image is static/images/user/frame_0.jpg
+    # get the number from the filename
+    frame_number = int(image_path.split('_')[-1].split('.')[0])
+    elbow_angle = ELBOW_ANGLE_ARRAY[frame_number]
+    # cv.imshow('Processed Image', processed_image)
+    # cv.waitKey(0)
+    # cv.destroyAllWindows()
     return elbow_angle
 
 

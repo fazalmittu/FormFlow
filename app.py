@@ -7,6 +7,7 @@ import subprocess
 import json
 import pprint
 from critic import critic
+from critic.summary import display_initial_analysis
 
 from openpose_overlay.overlay import generate_video
 
@@ -45,7 +46,9 @@ def index():
 @app.route('/run-critic')
 def run_critic():
     print("made it to run critic")
-    critic.main()
+    critique_result = session.get('critique_result', {})
+    overall_critique = critique_result.get('overall_critique', '')
+    critic.main(overall_critique)
 
 
 @app.route('/feedback')
@@ -78,13 +81,18 @@ def upload_file():
         generate_video(filepath)
         print("ABOUT TO CRITIQUE")
         critique_result = critique_video("uploads/output_video.mp4")
-        # critique_result = {"student_key_frames": [0, 3, 6, 9, 12]}
         print(critique_result)
         session['critique_result'] = critique_result  # Store in session
-        return redirect(url_for('feedback'))
+        return redirect(url_for('summary'))  # Redirect to the summary page
     else:
         flash('Invalid file type')
         return redirect(url_for('index'))
+
+
+@app.route('/summary')
+def summary():
+    video_path = session.get('video_path', 'default_video.mp4')  # Ensure you set this in your upload or processing route
+    return display_initial_analysis(video_path)
 
 
 if __name__ == '__main__':
