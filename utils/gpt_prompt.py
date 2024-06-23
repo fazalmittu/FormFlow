@@ -8,14 +8,19 @@ Only count shots that have been released from the hands. Only count the shot as 
 
     Your response should be in the following format (json):
     {
-        'pro_key_frames': List[Integer],
         'student_key_frames': List[Integer],
         'overall_critique': String
     }
 
     PICK 5 FRAMES FOR PRO_KEY_FRAMES AND STUDENT_KEY_FRAMES EACH. (Ex: [2, 13, 17, 19, 30], [1, 14, 16, 23, 30])
-    The key shot frames to analyze are based on the steps GATHER, AIM, BEND, SHOOT, FOLLOW THROUGH. The first frame should be gathering the ball. The second frame should be the player aiming. The third frame is the player bending. The fourth frame is player shooting. The fifth frame is the follow through.
-    'pro_key_frames' --> key shot frames to analyze. FROM PRO VIDEO
+    
+    The key shot frames to analyze are based on the steps GATHER, AIM, BEND, SHOOT, FOLLOW THROUGH. 
+    The first frame should be gathering the ball. (FRAME 9 IS GATHER IN THE PROFESSIONAL VIDEO)
+    The second frame should be the player aiming. (FRAME 30 IS AIM IN THE PROFESSIONAL VIDEO)
+    The third frame is the player bending. (FRAME 51 IS BEND IN THE PROFESSIONAL VIDEO)
+    The fourth frame is player shooting (right when ball leaves hand). (FRAME 63 IS SHOOT IN THE PROFESSIONAL VIDEO)
+    The fifth frame is the follow through (arm fully extended). (FRAME 69 IS FOLLOW THROUGH IN THE PROFESSIONAL VIDEO)
+    
     'student_key_frames' --> key shot frames to analyze FROM STUDENT VIDEO.
     'overall_critique' --> Your overall analysis of the shot form taking into account all of the intermediate steps and the technique in the reference
     video. Make sure the analysis is detailed and fair.
@@ -82,7 +87,15 @@ Then run some variation of the following code to get the frames:
 
     '''
 
+The key shot frames to analyze are based on the steps GATHER, AIM, BEND, SHOOT, FOLLOW THROUGH. 
+The first frame should be gathering the ball. (FRAME 9 IS GATHER IN THE PROFESSIONAL VIDEO)
+The second frame should be the player aiming. (FRAME 30 IS AIM IN THE PROFESSIONAL VIDEO)
+The third frame is the player bending. (FRAME 51 IS BEND IN THE PROFESSIONAL VIDEO)
+The fourth frame is player shooting (right when ball leaves hand). (FRAME 63 IS SHOOT IN THE PROFESSIONAL VIDEO)
+The fifth frame is the follow through (arm fully extended). (FRAME 69 IS FOLLOW THROUGH IN THE PROFESSIONAL VIDEO)
+
 Remember to start by extracting the frames and picking out the key frames that show the intermediate steps.
 Please do not just pick the first 10 frames, look more deeply. DO NOT PUT ```JSON IN YOUR RESPONSE. KEEP IT ONLY JSON NO OTHER TEXT. I AM PARSING IT DIRECTLY AND TURNING IT INTO A DICTIONARY.
+PLEASE DO NOT USE ANY DOUBLE QUOTES IN YOUR RESPONSE (")
 
 """

@@ -62,8 +62,8 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         print("ABOUT TO CRITIQUE")
-        # critique_result = critique_video(filepath)
-        critique_result = {"student_key_frames": [0, 3, 6, 9, 12]}
+        critique_result = critique_video(filepath)
+        # critique_result = {"student_key_frames": [0, 3, 6, 9, 12]}
         print(critique_result)
         session['critique_result'] = critique_result  # Store in session
         return redirect(url_for('feedback'))

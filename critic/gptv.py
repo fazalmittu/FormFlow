@@ -55,6 +55,10 @@ def critique_video(user_video_path: str):
     #replace "    " with nothing
     result_content = result_content.replace('    ', '')
     print(result_content)
+    result_content = result_content.replace('   ', '')
+    print(result_content)
+    result_content = result_content.replace('  ', '')
+    print(result_content)
     # replace '```json' with nothing
     result_content = result_content.replace('```json', '')
     print(result_content)
@@ -70,6 +74,9 @@ def critique_video(user_video_path: str):
     result_content = result_content.replace(",'s", ',"s')
     print(result_content)
 
+    result_content = result_content.replace("{'s", '{"s')
+    print(result_content)
+
     # replace "t with 't
     result_content = result_content.replace('"t', "'t")
     print(result_content)
@@ -81,6 +88,8 @@ def critique_video(user_video_path: str):
     #replace '"' with \"
     result_content = result_content.replace('"', '\"')
     print(result_content)
+
+
 
     print('AFTER RESULT')
     res = json.loads(fr"""{result_content}""")
