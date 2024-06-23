@@ -14,12 +14,13 @@ Only count shots that have been released from the hands. Only count the shot as 
     }
 
     PICK 5 FRAMES FOR PRO_KEY_FRAMES AND STUDENT_KEY_FRAMES EACH. (Ex: [2, 13, 17, 19, 30], [1, 14, 16, 23, 30])
-    'pro_key_frames' --> key shot frames to analyze (gather, aim, bend, shoot, follow through) FROM PRO VIDEO
-    'student_key_frames' --> key shot frames to analyze (gather, aim, bend, shoot, follow through) FROM STUDENT VIDEO
+    The key shot frames to analyze are based on the steps gather, aim, bend, shoot, follow through. The first frame should be gathering the ball. The second frame should be the player aiming. The third frame is the player bending. The fourth frame is player shooting. The fifth frame is the follow through.
+    'pro_key_frames' --> key shot frames to analyze. FROM PRO VIDEO
+    'student_key_frames' --> key shot frames to analyze FROM STUDENT VIDEO.
     'overall_critique' --> Your overall analysis of the shot form taking into account all of the intermediate steps and the technique in the reference
     video. Make sure the analysis is detailed and fair.
 
-    Give an intricate, detailed response. 
+    Give an intricate, detailed response. Make sure to only return a json.
 
 """
 
