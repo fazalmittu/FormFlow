@@ -121,7 +121,7 @@ def generate_video(filename):
 
     # Define the codec and create VideoWriter object
     fourcc = cv.VideoWriter_fourcc(*'mp4v')
-    output_video_path = 'output_video.mp4'
+    output_video_path = 'uploads/output_video.mp4'
     out = cv.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
     while cap.isOpened():

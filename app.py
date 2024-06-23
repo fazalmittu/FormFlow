@@ -6,6 +6,8 @@ from critic.gptv import critique_video
 import json
 import pprint
 
+from openpose_overlay.overlay import generate_video
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
@@ -61,8 +63,9 @@ def upload_file():
         filename = file.filename
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
+        generate_video(filepath)
         print("ABOUT TO CRITIQUE")
-        critique_result = critique_video(filepath)
+        critique_result = critique_video("uploads/output_video.mp4")
         # critique_result = {"student_key_frames": [0, 3, 6, 9, 12]}
         print(critique_result)
         session['critique_result'] = critique_result  # Store in session
