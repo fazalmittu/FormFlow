@@ -4,10 +4,11 @@
   <meta charset="utf-8">
   <title>Initial Analysis</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Avenir:wght@400;700;900&display=swap');
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Avenir', sans-serif;
       background-color: #000;
       color: #fff;
       display: flex;
@@ -29,11 +30,13 @@
       justify-content: space-between;
     }
     .header {
-      font-size: 2.5em;
-      font-family: 'Courier New', Courier, monospace;
-      color: #4CAF50;
+      font-size: 3em; /* Increase font size for Performance Summary */
+      font-family: 'Avenir', sans-serif;
+      background: linear-gradient(90deg, #ff007f, #007bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 20px;
-      font-weight: bold;
+      font-weight: 900; /* Make the header text bold */
     }
     .content {
       display: flex;
@@ -60,7 +63,7 @@
       color: #fff;
       display: flex;
       align-items: center;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Avenir', sans-serif;
     }
     .elbow-angle {
       margin-top: 20px;
@@ -68,7 +71,7 @@
       color: #fff;
       display: flex;
       align-items: center;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Avenir', sans-serif;
       margin-bottom: 0; /* Remove extra space */
       line-height: 1; /* Adjust line height */
     }
@@ -83,16 +86,15 @@
       margin-bottom: 10px;
       color: #fff;
       font-weight: bold;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Avenir', sans-serif;
     }
     .critique-text {
-      font-size: 1em;
-      line-height: 1.4;
+      font-size: 1.0em; /* Increase font size for critique text */
+      line-height: 1.6; /* Adjust line height for better readability */
       text-align: left;
       color: #fff;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Avenir', sans-serif;
       margin-bottom: 0; /* Remove extra space */
-      line-height: 1.4; /* Adjust line height */
     }
     .button-container {
       display: flex;
@@ -102,17 +104,17 @@
     button {
       padding: 10px 20px;
       font-size: 1.2em;
-      background-color: #4CAF50;
+      background-color: #ff007f;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
+      font-family: 'Avenir', sans-serif;
+      font-weight: 900; /* Make the button text bold */
       transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #45a049;
+      background-color: #007bff;
     }
   </style>
 </head>
@@ -153,8 +155,8 @@
         datasets: [{
           label: 'Performance Score',
           data: [finalScore, 10 - finalScore],
-          backgroundColor: ['rgba(76, 175, 80, 0.2)', 'rgba(255, 255, 255, 0.1)'],
-          borderColor: ['rgba(76, 175, 80, 1)', 'rgba(255, 255, 255, 0.1)'],
+          backgroundColor: ['rgba(255, 0, 127, 0.2)', 'rgba(0, 123, 255, 0.1)'],
+          borderColor: ['rgba(255, 0, 127, 1)', 'rgba(0, 123, 255, 0.1)'],
           borderWidth: 1
         }]
       },
