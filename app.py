@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template, flash, jsonify
+from flask import Flask, request, redirect, url_for, render_template, flash, jsonify, session
 import boto3
 import os
 from dotenv import load_dotenv
@@ -37,11 +37,13 @@ def index():
 
 @app.route('/feedback')
 def feedback():
-    critique_result = request.args.get('critique_result')
+    print("CAROUSEL FOUND")
+    flash("MADE IT TO CAROUSEL")
+    critique_result = session.get('critique_result')  # Retrieve from session
     print(critique_result)
     if critique_result:
-        student_key_frames = critique_result.get('student_key_frames', [])
-        key_frame_paths = [f'frames/user/frame_{frame}.jpg' for frame in student_key_frames]
+        student_key_frames = critique_result.get("student_key_frames", [])
+        key_frame_paths = [f'frame_{str(int(frame))}.jpg' for frame in student_key_frames]
     else:
         key_frame_paths = []
     return render_template('carousel.html', key_frame_paths=key_frame_paths)
@@ -59,21 +61,14 @@ def upload_file():
         filename = file.filename
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        try:
-            s3.upload_fileobj(
-                file,
-                EXTERNAL_S3_BUCKET,
-                filename,
-                ExtraArgs={"ContentType": file.content_type}
-            )
-            flash('File successfully uploaded to S3')
-            critique_result = critique_video(filepath)
-            print(critique_result)
-            critique_result_json = json.dumps(critique_result)
-            pprint.pprint(critique_result_json)
-            return redirect(url_for('feedback', critique_result=critique_result_json))
-        except Exception as e:
-            flash(f'Error uploading file: {e}')
+        print("ABOUT TO CRITIQUE")
+        # critique_result = critique_video(filepath)
+        critique_result = {"student_key_frames": [0, 3, 6, 9, 12]}
+        print(critique_result)
+        session['critique_result'] = critique_result  # Store in session
+        return redirect(url_for('feedback'))
+    else:
+        flash('Invalid file type')
         return redirect(url_for('index'))
 
 if __name__ == '__main__':

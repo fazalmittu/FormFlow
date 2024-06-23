@@ -47,6 +47,7 @@
       .carousel-item {
         min-width: 100%;
         box-sizing: border-box;
+        position: relative; /* Ensure the caption is positioned relative to the item */
       }
 
       .carousel-item img {
@@ -63,6 +64,8 @@
         padding: 10px;
         border-radius: 5px;
         font-size: 1.2em;
+        width: 80%; /* Ensure the caption does not exceed the width of the item */
+        text-align: center; /* Center the text within the caption */
       }
 
       .carousel-controls {
@@ -95,7 +98,7 @@
       <div class="carousel-inner" id="carouselInner">
         {% for frame_path in key_frame_paths %}
           <div class="carousel-item">
-            <img src="{{ frame_path }}" alt="Key Frame">
+            <img src="{{ url_for('static', filename='images/user/' + frame_path) }}" alt="Key Frame">
             <div class="carousel-caption">This is a description for {{ frame_path }}.</div>
           </div>
         {% endfor %}

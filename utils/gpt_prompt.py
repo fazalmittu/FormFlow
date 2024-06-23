@@ -14,7 +14,7 @@ Only count shots that have been released from the hands. Only count the shot as 
     }
 
     PICK 5 FRAMES FOR PRO_KEY_FRAMES AND STUDENT_KEY_FRAMES EACH. (Ex: [2, 13, 17, 19, 30], [1, 14, 16, 23, 30])
-    The key shot frames to analyze are based on the steps gather, aim, bend, shoot, follow through. The first frame should be gathering the ball. The second frame should be the player aiming. The third frame is the player bending. The fourth frame is player shooting. The fifth frame is the follow through.
+    The key shot frames to analyze are based on the steps GATHER, AIM, BEND, SHOOT, FOLLOW THROUGH. The first frame should be gathering the ball. The second frame should be the player aiming. The third frame is the player bending. The fourth frame is player shooting. The fifth frame is the follow through.
     'pro_key_frames' --> key shot frames to analyze. FROM PRO VIDEO
     'student_key_frames' --> key shot frames to analyze FROM STUDENT VIDEO.
     'overall_critique' --> Your overall analysis of the shot form taking into account all of the intermediate steps and the technique in the reference
@@ -83,6 +83,6 @@ Then run some variation of the following code to get the frames:
     '''
 
 Remember to start by extracting the frames and picking out the key frames that show the intermediate steps.
-Please do not just pick the first 10 frames, look more deeply. 
+Please do not just pick the first 10 frames, look more deeply. DO NOT PUT ```JSON IN YOUR RESPONSE. KEEP IT ONLY JSON NO OTHER TEXT. I AM PARSING IT DIRECTLY AND TURNING IT INTO A DICTIONARY.
 
 """

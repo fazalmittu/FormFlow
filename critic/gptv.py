@@ -13,11 +13,11 @@ load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def critique_video(user_video_path: str) -> str:
-    smaller_ref = process_video("data/reference_video.mp4", "frames/reference")
+def critique_video(user_video_path: str):
+    smaller_ref = process_video("data/reference_video.mp4", "static/images/reference")
     print(len(smaller_ref), "frames read from reference video.")
 
-    smaller_user = process_video(user_video_path, "frames/user")
+    smaller_user = process_video(user_video_path, "static/images/user")
     print(len(smaller_user), "frames read from uploaded video.")
 
     PROMPT_MESSAGES = [
@@ -43,9 +43,47 @@ def critique_video(user_video_path: str) -> str:
         "max_tokens": 2000,
         # "response_format": { "type": "json_object" }
     }
+
+    print('BEFORE RESULT')
     
     result = client.chat.completions.create(**params)
-    res = json.loads(result.choices[0].message.content)
+    # replace single quotes with double quotes
+    result_content = result.choices[0].message.content.replace("'", '"')
+    # replace all new lines with nothing
+    result_content = result_content.replace('\n', '')
+    print(result_content)
+    #replace "    " with nothing
+    result_content = result_content.replace('    ', '')
+    print(result_content)
+    # replace '```json' with nothing
+    result_content = result_content.replace('```json', '')
+    print(result_content)
+
+    result_content = result_content.replace('```', '')
+    print(result_content)
+
+    # replace "s with 's
+    result_content = result_content.replace('"s', "'s")
+    print(result_content)
+
+    # replace ,'s with ,\"s
+    result_content = result_content.replace(",'s", ',"s')
+    print(result_content)
+
+    # replace "t with 't
+    result_content = result_content.replace('"t', "'t")
+    print(result_content)
+
+    # replace ,'t with ,\"t
+    result_content = result_content.replace(",'t", ',"t')
+    print(result_content)
+
+    #replace '"' with \"
+    result_content = result_content.replace('"', '\"')
+    print(result_content)
+
+    print('AFTER RESULT')
+    res = json.loads(fr"""{result_content}""")
     print(res)
     print(type(res))
     return res
