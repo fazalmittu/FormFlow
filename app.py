@@ -3,8 +3,10 @@ import boto3
 import os
 from dotenv import load_dotenv
 from critic.gptv import critique_video
+import subprocess
 import json
 import pprint
+from critic import critic
 
 from openpose_overlay.overlay import generate_video
 
@@ -30,12 +32,21 @@ s3 = boto3.client(
 
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/run-critic')
+def run_critic():
+    print("made it to run critic")
+    critic.main()
+
 
 @app.route('/feedback')
 def feedback():
@@ -49,6 +60,7 @@ def feedback():
     else:
         key_frame_paths = []
     return render_template('carousel.html', key_frame_paths=key_frame_paths)
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -73,6 +85,7 @@ def upload_file():
     else:
         flash('Invalid file type')
         return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

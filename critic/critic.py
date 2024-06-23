@@ -8,6 +8,7 @@ from uuid import uuid4
 load_dotenv()
 HUME_API_KEY = os.getenv("HUME_API_KEY")
 
+
 async def start_conversation(critique: str) -> None:
     # Connect and authenticate with Hume
     client = HumeVoiceClient(HUME_API_KEY)
@@ -40,7 +41,8 @@ async def start_conversation(critique: str) -> None:
                 print("Ending conversation...")
                 break
 
-if __name__ == "__main__":
+
+def main():
     critique = """
     Basketball Shot Form Analysis
     Stance and Position
