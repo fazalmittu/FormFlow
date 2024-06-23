@@ -1,191 +1,191 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Upload a Video</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+<head>
+  <meta charset="utf-8">
+  <title>Upload a Video</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', sans-serif;
-        background-color: #000;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        text-align: center;
-        letter-spacing: normal; /* Reset letter-spacing to normal */
-      }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      letter-spacing: normal; /* Reset letter-spacing to normal */
+    }
 
-      .formflow-title {
-        font-weight: 900;
-        font-size: 8em;
-        margin-bottom: 20px;
-        background: linear-gradient(90deg, #ff007f, #007bff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        position: absolute;
-        top: 5%;
-      }
+    .formflow-title {
+      font-weight: 900;
+      font-size: 8em;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #ff007f, #007bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: absolute;
+      top: 5%;
+    }
 
-      .container {
-        background: rgba(0, 0, 0, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      }
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
 
-      h1 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
-        color: #fff;
-        letter-spacing: normal; /* Reset letter-spacing to normal */
-      }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: normal; /* Reset letter-spacing to normal */
+    }
 
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-      label {
-        margin-bottom: 10px;
-        font-size: 1.2em;
-        font-weight: bold;
-        letter-spacing: normal; /* Reset letter-spacing to normal */
-      }
+    label {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: normal; /* Reset letter-spacing to normal */
+    }
 
-      .file-input-container {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        max-width: 400px;
-        margin-bottom: 20px;
-      }
+    .file-input-container {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
 
-      .file-input {
-        width: 100%;
-        height: 50px;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        cursor: pointer;
-      }
+    .file-input {
+      width: 100%;
+      height: 50px;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
 
-      .file-label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 50px;
-        background-color: #333;
-        border: 1px solid #555;
-        border-radius: 5px;
-        color: #fff;
-        font-size: 1em;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    .file-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 50px;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      .file-label:hover {
-        background-color: #444;
-      }
+    .file-label:hover {
+      background-color: #444;
+    }
 
-      .file-label i {
-        margin-right: 10px;
-      }
+    .file-label i {
+      margin-right: 10px;
+    }
 
-      button {
-        padding: 10px 20px;
-        font-size: 1em;
-        color: #fff;
-        background-color: #ff007f;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      color: #fff;
+      background-color: #ff007f;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      button:hover {
-        background-color: #007bff;
-      }
+    button:hover {
+      background-color: #007bff;
+    }
 
-      ul {
-        list-style: none;
-        padding: 0;
-      }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
 
-      li {
-        background: #ff0000;
-        padding: 10px;
-        margin: 5px 0;
-        border-radius: 5px;
-      }
+    li {
+      background: #ff0000;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
 
-      .spinner {
-        display: none;
-        margin-top: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="formflow-title">SportsVision</div>
-    <div class="container">
-      <h1>Upload a Video</h1>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-      <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
-        <div class="file-input-container">
-          <input type="file" id="file" name="file" accept="video/*" class="file-input" required>
-          <label for="file" class="file-label">
-            <i class="fas fa-upload"></i> Choose a video file
-          </label>
-        </div>
-        <button type="submit">Upload</button>
-      </form>
-      <div class="spinner">
-        <i class="fas fa-spinner fa-spin"></i> Processing...
-      </div>
+    .spinner {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="formflow-title">SportsVision</div>
+<div class="container">
+  <h1>Upload a Video</h1>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
+    <div class="file-input-container">
+      <input type="file" id="file" name="file" accept="video/*" class="file-input" required>
+      <label for="file" class="file-label">
+        <i class="fas fa-upload"></i> Choose a video file
+      </label>
     </div>
-    <script>
-      document.getElementById('uploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const spinner = document.querySelector('.spinner');
-        spinner.style.display = 'block';
-        fetch(form.action, {
-          method: form.method,
-          body: formData
-        }).then(response => {
-          if (response.redirected) {
-            window.location.href = response.url;
-          } else {
-            return response.json();
-          }
-        }).then(data => {
-          spinner.style.display = 'none';
-          if (data && data.redirect) {
-            window.location.href = data.redirect;
-          }
-        }).catch(error => {
-          spinner.style.display = 'none';
-          console.error('Error:', error);
-        });
-      });
-    </script>
-  </body>
+    <button type="submit">Upload</button>
+  </form>
+  <div class="spinner">
+    <i class="fas fa-spinner fa-spin"></i> Processing...
+  </div>
+</div>
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const spinner = document.querySelector('.spinner');
+    spinner.style.display = 'block';
+    fetch(form.action, {
+      method: form.method,
+      body: formData
+    }).then(response => {
+      if (response.redirected) {
+        window.location.href = response.url;
+      } else {
+        return response.json();
+      }
+    }).then(data => {
+      spinner.style.display = 'none';
+      if (data && data.redirect) {
+        window.location.href = data.redirect;
+      }
+    }).catch(error => {
+      spinner.style.display = 'none';
+      console.error('Error:', error);
+    });
+  });
+</script>
+</body>
 </html>
