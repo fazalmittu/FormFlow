@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Initial Analysis</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .container {
+      width: 80%;
+      height: 80%;
+      background: rgba(50, 50, 50, 0.8);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .score {
+      font-size: 2.5em;
+      color: #4CAF50;
+    }
+    p {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+    .analysis-text {
+      margin-top: auto;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    video {
+      width: 100%; /* Adjust as needed */
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="score">Score: {{ score }}</div>
+  <h1>Initial Analysis</h1>
+  <p>{{ overall_critique }}</p>
+  <video src="{{ url_for('static', filename=video_path) }}" autoplay loop muted>
+    Your browser does not support the video tag.
+  </video>
+  <div class="analysis-text">
+    <p>We've carried out a deeper analysis, would you like to see the key frames that our AI coach highlighted while reviewing your tape?</p>
+    <button onclick="window.location.href='{{ url_for('feedback') }}'">Analyze Key Frames</button>
+  </div>
+</div>
+</body>
+</html>
