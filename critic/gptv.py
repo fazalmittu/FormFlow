@@ -6,42 +6,48 @@ import os
 from dotenv import load_dotenv
 
 from utils.gpt_prompt import CRITIQUE_SYSTEM_MESSAGE
-# import requests
 
 load_dotenv()
 
-client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-reference_video = cv2.VideoCapture("data/reference_video.mp4")
+def process_video(video_path, output_dir, frame_interval=3):
+    video = cv2.VideoCapture(video_path)
+    base64_frames = []
+    frame_count = 0
 
-base64Frames = []
-while reference_video.isOpened():
-    success, frame = reference_video.read()
-    if not success:
-        break
-    _, buffer = cv2.imencode(".jpg", frame)
-    base64Frames.append(base64.b64encode(buffer).decode("utf-8"))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
-smaller_ref = [frame[1] for frame in enumerate(base64Frames) if frame[0] % 3 == 0]
+    while video.isOpened():
+        success, frame = video.read()
+        if not success:
+            break
 
-reference_video.release()
-print(len(smaller_ref), "frames read.")
+        if frame_count % frame_interval == 0:
+            # Add frame number text
+            text = f"Frame: {frame_count}"
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(frame, text, (10, 30), font, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
-uploaded_video = cv2.VideoCapture("data/freethrow.mp4")
+            # Save frame to output directory
+            frame_filename = os.path.join(output_dir, f"frame_{frame_count}.jpg")
+            cv2.imwrite(frame_filename, frame)
 
-base64Frames2 = []
-while uploaded_video.isOpened():
-    success, frame = uploaded_video.read()
-    if not success:
-        break
-    _, buffer = cv2.imencode(".jpg", frame)
-    base64Frames2.append(base64.b64encode(buffer).decode("utf-8"))
+            # Encode frame to base64
+            _, buffer = cv2.imencode(".jpg", frame)
+            base64_frames.append(base64.b64encode(buffer).decode("utf-8"))
 
-smaller_user = [frame[1] for frame in enumerate(base64Frames2) if frame[0] % 3 == 0]
+        frame_count += 1
 
-uploaded_video.release()
-print(len(smaller_user), "frames read.")
+    video.release()
+    return base64_frames
 
+smaller_ref = process_video("data/reference_video.mp4", "frames/reference")
+print(len(smaller_ref), "frames read from reference video.")
+
+smaller_user = process_video("data/freethrow.mp4", "frames/user")
+print(len(smaller_user), "frames read from uploaded video.")
 
 PROMPT_MESSAGES = [
     {
@@ -54,10 +60,9 @@ PROMPT_MESSAGES = [
         "role": "user",
         "content": [
             CRITIQUE_SYSTEM_MESSAGE,
-            *map(lambda x: {"image": x, "resize": 350}, smaller_ref),
-            *map(lambda x: {"image": x, "resize": 350}, smaller_user),
+            *map(lambda x: {"image": x, "resize": 768}, smaller_ref),
+            *map(lambda x: {"image": x, "resize": 768}, smaller_user),
         ],
-
     } 
 ]
 params = {
@@ -66,5 +71,6 @@ params = {
     "max_tokens": 2000,
 }
 
-result = client.chat.completions.create(**params)
-print(result.choices[0].message.content)
+if __name__ == "__main__":  
+    result = client.chat.completions.create(**params)
+    print(result.choices[0].message.content)
