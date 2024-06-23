@@ -68,6 +68,7 @@ def upload_file():
             )
             flash('File successfully uploaded to S3')
             critique_result = critique_video(filepath)
+            print(critique_result)
             critique_result_json = json.dumps(critique_result)
             pprint.pprint(critique_result_json)
             return redirect(url_for('feedback', critique_result=critique_result_json))
