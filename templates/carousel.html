@@ -41,12 +41,12 @@
 
     .carousel {
       width: 100%;
-      max-width: 1200px; /* Increased max width */
+      max-width: 1200px;
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       position: relative;
-      margin: auto; /* Center the carousel */
+      margin: auto;
     }
 
     .carousel-inner {
@@ -62,7 +62,7 @@
 
     .carousel-item img {
       width: 100%;
-      height: auto; /* Maintain aspect ratio */
+      height: auto;
       border-bottom: 2px solid #ff007f;
     }
 
@@ -74,6 +74,7 @@
       background: rgba(0, 0, 0, 0.5);
       padding: 10px;
       border-radius: 5px;
+      text-align: center;
     }
 
     .carousel-controls {
@@ -146,56 +147,70 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">Key Frames Carousel</div>
-    <div class="carousel">
-      <div class="carousel-inner" id="carouselInner">
-        {% for frame_path in key_frame_paths %}
-        <div class="carousel-item">
-          <img src="{{ url_for('static', filename='images/user/' + frame_path) }}" alt="Key Frame">
-          <div class="carousel-caption">This is a description for {{ frame_path }}.</div>
-        </div>
-        {% endfor %}
+<div class="container">
+  <div class="title">Key Frames Carousel</div>
+  <div class="carousel">
+    <div class="carousel-inner" id="carouselInner">
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='images/user/' + key_frame_paths[0]) }}" alt="Key Frame">
+        <div class="carousel-caption">Gather</div>
       </div>
-      <div class="carousel-controls">
-        <button class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-        <button class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='images/user/' + key_frame_paths[1]) }}" alt="Key Frame">
+        <div class="carousel-caption">Aim</div>
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='images/user/' + key_frame_paths[2]) }}" alt="Key Frame">
+        <div class="carousel-caption">Bend</div>
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='images/user/' + key_frame_paths[3]) }}" alt="Key Frame">
+        <div class="carousel-caption">Shoot</div>
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='images/user/' + key_frame_paths[4]) }}" alt="Key Frame">
+        <div class="carousel-caption">Follow Through</div>
       </div>
     </div>
-    <button class="launch-button" id="launchButton"><i class="fas fa-microphone"></i>Talk to Virtual Coach<span class="listening-indicator"></span></button>
+    <div class="carousel-controls">
+      <button class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
   </div>
-  <script>
-    let currentIndex = 0;
-    const items = document.querySelectorAll('.carousel-item');
-    const totalItems = items.length;
+  <button class="launch-button" id="launchButton"><i class="fas fa-microphone"></i>Talk to Virtual Coach<span class="listening-indicator"></span></button>
+</div>
+<script>
+  let currentIndex = 0;
+  const items = document.querySelectorAll('.carousel-item');
+  const totalItems = items.length;
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
-      updateCarousel();
-    });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+    updateCarousel();
+  });
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-      updateCarousel();
-    });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+    updateCarousel();
+  });
 
-    function updateCarousel() {
-      const carouselInner = document.getElementById('carouselInner');
-      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
+  function updateCarousel() {
+    const carouselInner = document.getElementById('carouselInner');
+    carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
 
-    const launchButton = document.getElementById('launchButton');
-    const listeningIndicator = launchButton.querySelector('.listening-indicator');
+  const launchButton = document.getElementById('launchButton');
+  const listeningIndicator = launchButton.querySelector('.listening-indicator');
 
-    launchButton.addEventListener('click', () => {
-      launchButton.classList.add('listening');
-      listeningIndicator.style.display = 'block';
-      
-      // Simulate the listening process (replace with actual logic)
-      setTimeout(() => {
-        window.location.href = '/run-critic';
-      }, 2000); // Redirect after 2 seconds
-    });
-  </script>
+  launchButton.addEventListener('click', () => {
+    launchButton.classList.add('listening');
+    listeningIndicator.style.display = 'block';
+
+    // Simulate the listening process (replace with actual logic)
+    setTimeout(() => {
+      window.location.href = '/run-critic';
+    }, 2000); // Redirect after 2 seconds
+  });
+</script>
 </body>
 </html>
