@@ -130,7 +130,7 @@ def generate_video(filename):
             break
 
         # Process the frame
-        processed_frame = process_frame(frame)
+        processed_frame, angle = process_frame(frame)
 
         # Write the processed frame to the output video
         out.write(processed_frame)
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     # cv.waitKey(0)
     # cv.destroyAllWindows()
     # python3 -m openpose_overlay.overlay
-    #generate_video("data/freethrow.mp4")
-    print(process_image_and_get_elbow_angle("data/jordan.jpg"))
+    generate_video("data/freethrow.mp4")
+    #print(process_image_and_get_elbow_angle("data/jordan.jpg"))
 
     
