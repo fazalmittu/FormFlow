@@ -21,6 +21,15 @@
       text-align: center;
     }
 
+    .container {
+      background: rgba(50, 50, 50, 0.8);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 900px;
+    }
+
     .title {
       font-weight: 900;
       font-size: 3em;
@@ -31,12 +40,13 @@
     }
 
     .carousel {
-      width: 80%;
-      max-width: 800px;
+      width: 100%;
+      max-width: 1200px; /* Increased max width */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       position: relative;
+      margin: auto; /* Center the carousel */
     }
 
     .carousel-inner {
@@ -47,11 +57,12 @@
     .carousel-item {
       min-width: 100%;
       box-sizing: border-box;
-      position: relative; /* Ensure the caption is positioned relative to the item */
+      position: relative;
     }
 
     .carousel-item img {
       width: 100%;
+      height: auto; /* Maintain aspect ratio */
       border-bottom: 2px solid #ff007f;
     }
 
@@ -60,12 +71,9 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.5);
       padding: 10px;
       border-radius: 5px;
-      font-size: 1.2em;
-      width: 80%; /* Ensure the caption does not exceed the width of the item */
-      text-align: center; /* Center the text within the caption */
     }
 
     .carousel-controls {
@@ -102,54 +110,92 @@
       border-radius: 5px;
       cursor: pointer;
       text-transform: uppercase;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .launch-button:hover {
       background-color: #e60073;
     }
+
+    .launch-button.listening {
+      background-color: #007bff;
+    }
+
+    .launch-button i {
+      margin-right: 10px;
+    }
+
+    .listening-indicator {
+      display: none;
+      width: 10px;
+      height: 10px;
+      background-color: #00ff00;
+      border-radius: 50%;
+      margin-left: 10px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-<div class="title">Key Frames Carousel</div>
-<div class="carousel">
-  <div class="carousel-inner" id="carouselInner">
-    {% for frame_path in key_frame_paths %}
-    <div class="carousel-item">
-      <img src="{{ url_for('static', filename='images/user/' + frame_path) }}" alt="Key Frame">
-      <div class="carousel-caption">This is a description for {{ frame_path }}.</div>
+  <div class="container">
+    <div class="title">Key Frames Carousel</div>
+    <div class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        {% for frame_path in key_frame_paths %}
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='images/user/' + frame_path) }}" alt="Key Frame">
+          <div class="carousel-caption">This is a description for {{ frame_path }}.</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
     </div>
-    {% endfor %}
+    <button class="launch-button" id="launchButton"><i class="fas fa-microphone"></i>Talk to Virtual Coach<span class="listening-indicator"></span></button>
   </div>
-  <div class="carousel-controls">
-    <button class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-    <button class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
-  </div>
-</div>
-<button class="launch-button" id="launchButton">Talk to Virtual Coach!</button>
+  <script>
+    let currentIndex = 0;
+    const items = document.querySelectorAll('.carousel-item');
+    const totalItems = items.length;
 
-<script>
-  let currentIndex = 0;
-  const items = document.querySelectorAll('.carousel-item');
-  const totalItems = items.length;
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+      updateCarousel();
+    });
 
-  document.getElementById('prevBtn').addEventListener('click', () => {
-    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
-    updateCarousel();
-  });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+      updateCarousel();
+    });
 
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-    updateCarousel();
-  });
+    function updateCarousel() {
+      const carouselInner = document.getElementById('carouselInner');
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
 
-  function updateCarousel() {
-    const carouselInner = document.getElementById('carouselInner');
-    carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-  }
+    const launchButton = document.getElementById('launchButton');
+    const listeningIndicator = launchButton.querySelector('.listening-indicator');
 
-  document.getElementById('launchButton').addEventListener('click', () => {
-    window.location.href = '/run-critic';
-  });
-</script>
+    launchButton.addEventListener('click', () => {
+      launchButton.classList.add('listening');
+      listeningIndicator.style.display = 'block';
+      
+      // Simulate the listening process (replace with actual logic)
+      setTimeout(() => {
+        window.location.href = '/run-critic';
+      }, 2000); // Redirect after 2 seconds
+    });
+  </script>
 </body>
 </html>

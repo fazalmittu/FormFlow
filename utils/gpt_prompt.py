@@ -26,6 +26,7 @@ Only count shots that have been released from the hands. Only count the shot as 
     video. Make sure the analysis is detailed and fair.
 
     Give an intricate, detailed response. Make sure to only return a json with NO OTHER TEXT. I SHOULD BE ABLE TO PARSE YOUR RESPONSE USING JSON.LOADS
+    PLEASE DO NOT USE ANY DOUBLE QUOTES IN YOUR RESPONSE (") THIS IS VERY IMPORTANT. THE ONLY EXCEPTION IS TO WRAP STRINGS.
 
 """
 
@@ -96,6 +97,6 @@ The fifth frame is the follow through (arm fully extended). (FRAME 69 IS FOLLOW 
 
 Remember to start by extracting the frames and picking out the key frames that show the intermediate steps.
 Please do not just pick the first 10 frames, look more deeply. DO NOT PUT ```JSON IN YOUR RESPONSE. KEEP IT ONLY JSON NO OTHER TEXT. I AM PARSING IT DIRECTLY AND TURNING IT INTO A DICTIONARY.
-PLEASE DO NOT USE ANY DOUBLE QUOTES IN YOUR RESPONSE (")
+PLEASE DO NOT USE ANY DOUBLE QUOTES IN YOUR RESPONSE (") THE ONLY EXCEPTION IS TO WRAP STRINGS.
 
 """
