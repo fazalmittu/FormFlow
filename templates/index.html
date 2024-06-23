@@ -4,22 +4,21 @@
   <meta charset="utf-8">
   <title>Upload a Video</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #000;
-      color: #fff;
+      font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+      background-color: #1e1e1e;
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       text-align: center;
-      letter-spacing: normal; /* Reset letter-spacing to normal */
+      position: relative;
     }
 
     .formflow-title {
@@ -34,16 +33,18 @@
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.8);
+      background: #2c2c2c;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 500px;
     }
 
     h1 {
       font-size: 2.5em;
       margin-bottom: 20px;
-      color: #fff;
+      color: #ffffff;
       letter-spacing: normal; /* Reset letter-spacing to normal */
     }
 
@@ -57,6 +58,7 @@
       margin-bottom: 10px;
       font-size: 1.2em;
       font-weight: bold;
+      color: #cccccc;
       letter-spacing: normal; /* Reset letter-spacing to normal */
     }
 
@@ -84,17 +86,17 @@
       justify-content: center;
       width: 100%;
       height: 50px;
-      background-color: #333;
+      background-color: #3c3c3c;
       border: 1px solid #555;
       border-radius: 5px;
-      color: #fff;
+      color: #ffffff;
       font-size: 1em;
       cursor: pointer;
       transition: background-color 0.3s;
     }
 
     .file-label:hover {
-      background-color: #444;
+      background-color: #4c4c4c;
     }
 
     .file-label i {
@@ -104,12 +106,13 @@
     button {
       padding: 10px 20px;
       font-size: 1em;
-      color: #fff;
+      color: #ffffff;
       background-color: #ff007f;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
+      font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; /* Set to Avenir */
     }
 
     button:hover {
@@ -126,6 +129,7 @@
       padding: 10px;
       margin: 5px 0;
       border-radius: 5px;
+      color: #ffffff;
     }
 
     .spinner {
