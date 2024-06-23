@@ -1,4 +1,4 @@
-import cv2  # We're using OpenCV to read video, to install !pip install opencv-python
+import cv2 
 import base64
 import time
 from openai import OpenAI
@@ -34,6 +34,7 @@ PROMPT_MESSAGES = [
         ],
     } 
 ]
+
 params = {
     "model": "gpt-4o",
     "messages": PROMPT_MESSAGES,
